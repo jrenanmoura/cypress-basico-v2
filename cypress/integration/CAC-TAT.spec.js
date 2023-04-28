@@ -40,7 +40,7 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
         cy.get('#firstName').type('Renan')
         cy.get('#lastName').type('Moura')
         cy.get('#email').type('nemorenan@lindo.com.br')
-        cy.get('#phone-checkbox').click()
+        cy.get('#phone-checkbox').check()
         cy.get('#open-text-area').type(text, {delay : 0})
         cy.contains('button', 'Enviar' ).click()
         cy.get('.error').should('be.visible')
@@ -123,19 +123,35 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
        
     })
 
-    it.only('marca ambos checkboxes, depois desmarca o ultimo', function() {
+    it('marca ambos checkboxes, depois desmarca o ultimo', function() {
         cy.get('#email-checkbox,#phone-checkbox ')
             .check()
             .should('be.checked')
             .last()
             .uncheck()
             .should('not.be.checked')
-
-
     })
     
+    it('seleciona um arquivo da pasta fixtures', ()=>{
+        cy.get('input[type="file"]')
+        .should('not.have.value')
+        .selectFile('./cypress/fixtures/example.json')
+        .should(function($input){
+            expect($input[0].files[0].name).to.equal('example.json')
+        })
+    })
+
+    it.only('seleciona um arquivo simulando um drag-ad-drop', function(){
+        cy.get('input[type="file"]')
+        .should('not.have.value')
+        .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'} )
+        .should(function($input){
+            expect($input[0].files[0].name).to.equal('example.json')
+    })
 
     
 
     
   })
+
+})
