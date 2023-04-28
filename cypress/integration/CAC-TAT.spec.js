@@ -123,13 +123,13 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
        
     })
 
-    it.only('marca ambos checkboxes, depois desmarca o ultimo', ()=>{
+    it.only('marca ambos checkboxes, depois desmarca o ultimo', function() {
         cy.get('#email-checkbox,#phone-checkbox ')
-        .check()
-        .should('be.checked')
-        .last()
-        .uncheck()
-        .should('not.be.checked')
+            .check()
+            .should('be.checked')
+            .last()
+            .uncheck()
+            .should('not.be.checked')
 
 
     })
