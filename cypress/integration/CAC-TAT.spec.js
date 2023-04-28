@@ -1,6 +1,8 @@
 
 /// <reference types="Cypress" />
 
+const { should } = require("chai")
+
 describe('Central de Atendimento ao Cliente TAT', function() {
     beforeEach( function(){
         cy.visit('./src/index.html')
@@ -80,13 +82,60 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
     })
 
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function(){
-        cy.contains('button', 'Enviar' ).click()
+        cy.contains('button', 'Enviar' ).click() 
         cy.get('.error').should('be.visible')
     })
 
     it('envia o formuário com sucesso usando um comando customizado', ()=>{
         cy.fillMandatoryFieldsAndSubmit()
     })
+
+    it('seleciona um produto (YouTube) por seu texto', function(){
+        cy.get('#product')
+        .select('YouTube')
+        .should('have.value', 'youtube')
+    })
+
+    it('seleciona um produto (Mentoria) por seu valor (value)', function(){
+        cy.get('#product')
+        .select('mentoria')
+        .should('have.value', 'mentoria')
+    })
+
+    it('seleciona um produto (Blog) por seu índice', function(){
+        cy.get('#product')
+        .select(1)
+        .should('have.value', 'blog')
+    })
+
+    it('marca o tipo de atendimento "Feedback"', function(){
+        cy.get('#support-type > label:nth-child(4) > input[type=radio]')
+        .check()
+        .should('have.value', 'feedback')
+    })
+    it('marca cada tipo de atendimento', function(){
+        cy.get('#support-type > > input[type=radio]')
+        .should('have.length', 3)
+        .each(function($radio) {
+            cy.wrap($radio).check()
+            cy.wrap($radio).should('be.checked')
+         })
+       
+    })
+
+    it.only('marca ambos checkboxes, depois desmarca o ultimo', ()=>{
+        cy.get('#email-checkbox,#phone-checkbox ')
+        .check()
+        .should('be.checked')
+        .last()
+        .uncheck()
+        .should('not.be.checked')
+
+
+    })
+    
+
+    
 
     
   })
