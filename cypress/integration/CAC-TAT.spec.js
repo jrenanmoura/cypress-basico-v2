@@ -141,7 +141,7 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
         })
     })
 
-    it.only('seleciona um arquivo simulando um drag-ad-drop', function(){
+    it('seleciona um arquivo simulando um drag-ad-drop', function(){
         cy.get('input[type="file"]')
         .should('not.have.value')
         .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'} )
