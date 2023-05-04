@@ -105,7 +105,50 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
         cy.get('.error').should('be.visible')
         cy.tick(tempoMS)
         cy.get('.error').should('not.be.visible')
+        
     })
+
+    it.only('exibe  e esconde mensagem de sucsso e erro usando o .invoke()', function(){
+        cy.clock()
+        cy.contains('button', 'Enviar' )
+        .click() 
+
+        cy.get('.error')
+        .should('be.visible')
+
+        cy.tick(tempoMS)
+
+        cy.get('.error')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+        .and('contain', 'Valide os campos obrigatórios!')
+        .invoke('hide')
+        .should('not.be.visible')
+
+        cy.tick(5000)
+
+        cy.get('#firstName').type('Renan')
+        cy.get('#lastName').type('Moura')
+        cy.get('#email').type('nemorenan@lindo.com.br')
+        cy.get('#phone-checkbox').check()
+        cy.get('#open-text-area').type(text, {delay : 0})
+        cy.contains('button', 'Enviar' ).click()
+        cy.get('.success')
+        .should('not.be.visible')
+        .invoke('show')
+        .should('be.visible')
+        .and('contain', 'Mensagem enviada com sucesso.')
+        .invoke('hide')
+        .should('not.be.visible')
+
+
+        cy.tick(tempoMS)
+
+        cy.get('.error').should('not.be.visible')
+    })
+
+        
 
     it('envia o formuário com sucesso usando um comando customizado', ()=>{
         cy.fillMandatoryFieldsAndSubmit()
