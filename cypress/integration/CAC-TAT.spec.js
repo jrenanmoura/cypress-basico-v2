@@ -188,7 +188,7 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
 
   })
 
-  it('acessa a pagina de politica de privacidade removendo o target e entºao clicando no link', function(){
+  it('acessa a pagina de politica de privacidade removendo o target e então clicando no link', function(){
         
      
         cy.get('#privacy a')
