@@ -2,6 +2,7 @@
 /// <reference types="Cypress" />
 
 const { should } = require("chai")
+const tempoMS = 3000
 
 describe('Central de Atendimento ao Cliente TAT', function() {
     beforeEach( function(){
@@ -22,13 +23,22 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
 
 const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in culpa qui officia deserunt mollit anim id est laborum."
-    it('Preencha os campos do formulário', function(){
+    it('Preencha os campos obrigatórios e envia o formulário', function(){
+
+        cy.clock()
+
         cy.get('#firstName').type('Renan')
         cy.get('#lastName').type('Moura')
         cy.get('#email').type('nemorenan@lindo.com.br')
         cy.get('#open-text-area').type(text, {delay : 0})
         cy.contains('button', 'Enviar' ).click()
         cy.get('.success').should('be.visible')
+
+        cy.tick(tempoMS)
+
+        cy.get('.success').should('not.be.visible')
+
+        
     })
 
     it('numero de telefone com string tem que permanecer vazio', function(){
@@ -37,6 +47,8 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
     })
 
     it('Preencha os campos do formulário', function(){
+
+        cy.clock()
         cy.get('#firstName').type('Renan')
         cy.get('#lastName').type('Moura')
         cy.get('#email').type('nemorenan@lindo.com.br')
@@ -44,6 +56,12 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
         cy.get('#open-text-area').type(text, {delay : 0})
         cy.contains('button', 'Enviar' ).click()
         cy.get('.error').should('be.visible')
+
+        cy.tick(tempoMS)
+
+        cy.get('.error').should('not.be.visible')
+
+        
     })
 
     it('preenche e limpa os campos nome, sobrenome, email e telefone', ()=>{
@@ -82,8 +100,11 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
     })
 
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', function(){
+        cy.clock()
         cy.contains('button', 'Enviar' ).click() 
         cy.get('.error').should('be.visible')
+        cy.tick(tempoMS)
+        cy.get('.error').should('not.be.visible')
     })
 
     it('envia o formuário com sucesso usando um comando customizado', ()=>{
@@ -168,11 +189,15 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
   })
 
   it('acessa a pagina de politica de privacidade removendo o target e entºao clicando no link', function(){
+        
+     
         cy.get('#privacy a')
         .invoke('removeAttr', 'target')
         .click()
 
         cy.contains('Talking About Testing').should('be.visible')
+
+
   })
 
   })
