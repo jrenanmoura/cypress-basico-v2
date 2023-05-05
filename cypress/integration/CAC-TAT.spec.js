@@ -108,7 +108,7 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
         
     })
 
-    it.only('exibe  e esconde mensagem de sucsso e erro usando o .invoke()', function(){
+    it('exibe  e esconde mensagem de sucesso e erro usando o .invoke()', function(){
         cy.clock()
         cy.contains('button', 'Enviar' )
         .click() 
@@ -241,6 +241,24 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
         cy.contains('Talking About Testing').should('be.visible')
 
 
+  })
+
+  it('preenche a area de texto usando o comando .invoke', function(){
+    const textlonger = Cypress._.repeat(' texto de teste ', 20)
+    cy.get('#open-text-area')
+    .invoke('val', textlonger)
+    .should('have.value', textlonger)
+  })
+
+  it('faz uma requisição HTTP',function(){
+    cy.request('https://cac-tat.s3.eu-central-1.amazonaws.com/index.html')
+    .should(function(response){
+        const { status, statusText, body} = response
+        expect(status).to.equal(200)
+        expect(statusText).to.equal('OK')
+        expect(body).to.include('CAC TAT')
+
+    })
   })
 
   })
