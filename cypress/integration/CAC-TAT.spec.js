@@ -261,4 +261,14 @@ const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,  sunt in 
     })
   })
 
+  it('encontrar tags ocultas', function(){
+
+    cy.get('#cat')
+    .invoke('show')
+        .should('be.visible')
+        cy.get('#title')
+        .invoke('text', 'CAT TAT')
+        cy.get('#subtitle')
+  })
+
   })
